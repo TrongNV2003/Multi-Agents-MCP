@@ -6,14 +6,6 @@ from pydantic_settings import BaseSettings
 load_dotenv()
 
 class LLMConfig(BaseSettings):
-    base_url: str = Field(
-        description="Base URL for OpenAI API",
-        alias="LLM_URL",
-    )
-    api_key: str = Field(
-        description="API key for OpenAI",
-        alias="LLM_KEY",
-    )
     gemini_api_key: str = Field(
         description="API key for Gemini API",
         alias="GEMINI_API_KEY",
@@ -21,10 +13,6 @@ class LLMConfig(BaseSettings):
     gemini_model: str = Field(
         description="Model name to be used (e.g., Gemini-1.5)",
         alias="GEMINI_MODEL",
-    )
-    model: str = Field(
-        description="Model name to be used (e.g., GPT-4)",
-        alias="LLM_MODEL",
     )
     temperature: float = Field(
         default=0.0,
