@@ -19,6 +19,7 @@ class ConsultantAgent:
             llm=self.llm,
             tools=tools or [],
             verbose=True,
+            allow_delegation=True,
         )
 
 class InventoryAgent:
