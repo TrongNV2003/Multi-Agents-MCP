@@ -42,6 +42,16 @@ class MCPConfig(BaseSettings):
         alias="MCP_SERVER_PORT",
     )
 
+class MongodbConfig(BaseSettings):
+    mongo_uri: str = Field(
+        default="mongodb://localhost:27017",
+        description="MongoDB connection URI",
+    )
+    db_name: str = Field(
+        default="inventory",
+        description="Database name for MongoDB",
+    )
+
 class Role(str, Enum):
     SYSTEM = "system"
     USER = "user"
@@ -50,3 +60,4 @@ class Role(str, Enum):
 
 llm_config = LLMConfig()
 mcp_config = MCPConfig()
+db_config = MongodbConfig()

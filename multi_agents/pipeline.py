@@ -1,18 +1,16 @@
-import json
 from loguru import logger
 from crewai import Crew, Task, Process
 
 from multi_agents.tools.create_order import CreateOrderTool
+from multi_agents.tools.get_detail import GetDetailTool
 from multi_agents.agents.agents import ConsultantAgent, InventoryAgent, OrderAgent
 
 def pipeline(customer_input: str, initial_context_data: dict = None):
     logger.info(f"Pipeline started with input: '{customer_input}' and context: {initial_context_data}")
 
-    tools_for_order_agent = [CreateOrderTool()]
-
     consultant = ConsultantAgent()
-    inventory = InventoryAgent()
-    order = OrderAgent(tools=tools_for_order_agent)
+    inventory = InventoryAgent(tools=[GetDetailTool()])
+    order = OrderAgent(tools=[CreateOrderTool()])
 
     # Task 1: Consultant Agent phân tích yêu cầu
     task1_analyze_request = Task(
@@ -43,8 +41,11 @@ def pipeline(customer_input: str, initial_context_data: dict = None):
     task2_check_inventory = Task(
         description=f"""Dựa trên kết quả phân tích từ Task 1 (đặc biệt là 'product_details' và 'requires_inventory_check'):
         - Nếu 'requires_inventory_check' là true và 'product_details' có thông tin:
-          Hãy sử dụng các công cụ/kiến thức của bạn để kiểm tra tình trạng tồn kho và giá của sản phẩm.
-          Sản phẩm cần kiểm tra sẽ được cung cấp từ output của Task 1.
+          Hãy sử dụng công cụ "Check inventory detail" để kiểm tra thông tin tồn kho và giá của sản phẩm.
+          Đảm bảo cung cấp các thông tin như:
+          - product: Tên sản phẩm từ Task 1 (ví dụ: 'iPhone 15 Pro Max').
+          - storage: Dung lượng, nếu được đề cập (ví dụ: '256GB').
+          - color: Màu sắc, nếu được đề cập (ví dụ: 'Titan tự nhiên').
         - Nếu 'requires_inventory_check' là false hoặc không có thông tin sản phẩm rõ ràng:
           Trả về thông báo cho biết không cần kiểm tra kho hoặc không đủ thông tin.
         
@@ -73,28 +74,36 @@ def pipeline(customer_input: str, initial_context_data: dict = None):
              - `quantity`: (number) Mặc định là 1, hoặc nếu khách hàng chỉ định.
              - `total_price`: (number) Giá sản phẩm từ Task 2.
              - `customer_info`: một object chứa thông tin khách hàng từ `initial_context_data`: {initial_context_data} (bao gồm `customer_name` và `conversation_id`).
-          3. Đặt `order_created` là True.
+          3. Sử dụng công cụ `Create order` với input là JSON string của object trên.
+          4. Đặt `order_created` là True.
         - Nếu không đủ điều kiện đặt hàng (ví dụ: khách không muốn đặt, hết hàng, thiếu thông tin):
           Đặt `order_created` là False và cung cấp `message` giải thích.
 
         CHÚ Ý: 
         - Phản hồi của bạn PHẢI là một đối tượng JSON thuần túy, KHÔNG bao gồm bất kỳ định dạng markdown nào như ```json hoặc ```. 
+        - Ví dụ: {{"order_id": "uuid", "product": "iPhone 8", "quantity": 1, "total_price": 5990000, "customer_info": {{"conversation_id": "12345", "customer_name": "Name", "previous_interactions": "Hỏi về iPad"}}}}
         - Chỉ trả về đối tượng JSON với các trường như mô tả, không thêm văn bản trước hoặc sau JSON.
         """,
         agent=order.crewai_agent,
         expected_output="Một đối tượng JSON thuần túy (không bọc trong markdown) chứa: "
-                        "'order_created': (boolean) đơn hàng có được tạo không, "
-                        "'order_details': (object) chi tiết đơn hàng nếu được tạo (ví dụ: {'order_id', 'product', 'quantity', 'total_price', 'customer_info'}), "
+                        "'order_created': (boolean) đơn hàng có được tạo không."
+                        "'order_details': (object) chi tiết đơn hàng nếu được tạo."
                         "'message': (string) thông báo về trạng thái tạo đơn hàng.",
         context=[task1_analyze_request, task2_check_inventory]
     )
 
     # Task 4: Consultant Agent tổng hợp và tạo phản hồi cuối cùng cho khách hàng
     task4_final_response = Task(
-        description=f"""Tổng hợp tất cả thông tin từ các bước trước:
-        - Phân tích yêu cầu ban đầu (từ Task 1).
-        - Kết quả kiểm tra kho/giá (từ Task 2).
-        - Tình trạng xử lý đơn hàng (từ Task 3).
+        description=f"""Tổng hợp tất cả thông tin từ các bước trước để đưa ra câu trả lời cuối cùng cho khách hàng.
+        - Dựa trên kết quả từ Task 1 ('customer_intent', 'product_details'), Task 2 ('stock_status', 'price'), và Task 3 ('order_created', 'message'):
+          1. Nếu đơn hàng được tạo thành công ('order_created' là true):
+             Thông báo rằng đơn hàng đã được đặt, bao gồm thông tin sản phẩm, giá, và bất kỳ chi tiết nào từ Task 3.
+          2. Nếu không đặt được đơn hàng:
+             Giải thích lý do (hết hàng, thiếu thông tin, khách không muốn đặt, v.v.) dựa trên 'message' từ Task 3 hoặc các task trước.
+          3. Nếu khách chỉ hỏi thông tin hoặc giá:
+             Cung cấp câu trả lời rõ ràng về sản phẩm, tình trạng kho, và giá (từ Task 2).
+        - Đảm bảo câu trả lời thân thiện, dễ hiểu, và phù hợp với ngữ cảnh của khách hàng.
+        - Nếu có thông tin từ 'initial_context_data': {initial_context_data}, hãy sử dụng nó để cá nhân hóa câu trả lời (ví dụ: gọi tên khách hàng).
 
         Dựa trên toàn bộ quá trình, hãy soạn một câu trả lời hoàn chỉnh, thân thiện và chính xác cho câu hỏi ban đầu của khách hàng: '{customer_input}'.
         Nếu có bất kỳ vấn đề hoặc thông tin nào không rõ ràng, hãy giải thích một cách lịch sự.
@@ -132,13 +141,27 @@ def pipeline(customer_input: str, initial_context_data: dict = None):
     task1_res = task1_analyze_request.output
     task2_res = task2_check_inventory.output
     task3_res = task3_place_order.output
-    
+
+    token_usage = getattr(final_result, 'token_usage', None)
+    if token_usage and hasattr(token_usage, '__dict__'):
+        token_usage_dict = {
+            "total_tokens": getattr(token_usage, 'total_tokens', 0),
+            "prompt_tokens": getattr(token_usage, 'prompt_tokens', 0),
+            "cached_prompt_tokens": getattr(token_usage, 'cached_prompt_tokens', 0),
+            "completion_tokens": getattr(token_usage, 'completion_tokens', 0),
+            "successful_requests": getattr(token_usage, 'successful_requests', 0)
+        }
+        logger.debug(f"Serialized token_usage: {token_usage_dict}")
+    else:
+        token_usage_dict = "Không có thông tin token usage"
+        logger.debug("No token_usage data available")
+
     pipeline_result_dict = {
         "customer_response": customer_response_str,
         "task1_output": str(task1_res.raw) if task1_res and hasattr(task1_res, 'raw') else "Task 1: Output không có hoặc không có thuộc tính .raw",
         "task2_output": str(task2_res.raw) if task2_res and hasattr(task2_res, 'raw') else "Task 2: Output không có hoặc không có thuộc tính .raw",
         "task3_output": str(task3_res.raw) if task3_res and hasattr(task3_res, 'raw') else "Task 3: Output không có hoặc không có thuộc tính .raw",
-        "token_usage": getattr(final_result, 'token_usage', None) if hasattr(final_result, 'token_usage') else "Không có thông tin token usage"
+        "token_usage": token_usage_dict
     }
 
     for key, value in pipeline_result_dict.items():
@@ -163,8 +186,9 @@ if __name__ == "__main__":
         print("\n========= KẾT QUẢ =========")
         for key, value in pipeline_output_data.items():
             value_repr = str(value)
-            if len(value_repr) > 200: value_repr = value_repr[:200] + "..."
             print(f"  {key}: ({type(value).__name__}) {value_repr}")
 
+        print(pipeline_output_data)
+        
     except Exception as e:
         logger.error(f"Lỗi nghiêm trọng trong pipeline: {e}", exc_info=True)

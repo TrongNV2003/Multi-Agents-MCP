@@ -2,16 +2,15 @@ import os
 import json
 import time
 from typing import Type
+from pydantic import BaseModel
 from crewai.tools import BaseTool
-from pydantic import BaseModel, Field
 
-class MyToolInput(BaseModel):
-    order_details: str = Field(..., description="Order details in JSON format.")
+from multi_agents.config.schemas import CreateOrderInput
 
 class CreateOrderTool(BaseTool):
     name: str = "Create order"
     description: str = "Saves order data to a file in the 'orders' subdirectory with a standardized format. Input is a JSON string from SaveOrderInput model."
-    args_schema: Type[BaseModel] = MyToolInput
+    args_schema: Type[BaseModel] = CreateOrderInput
     
     def _run(self, order_details: str) -> str:
         """

@@ -1,5 +1,4 @@
 from crewai import Agent, LLM
-from abc import ABC, abstractmethod
 
 from multi_agents.config.settings import llm_config
 
@@ -19,7 +18,6 @@ class ConsultantAgent:
             llm=self.llm,
             tools=tools or [],
             verbose=True,
-            allow_delegation=True,
         )
 
 class InventoryAgent:
