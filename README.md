@@ -9,6 +9,7 @@ The system contains 3 main agents:
 ## Features
 - Analyze customer requests using AI to identify products and purchase intentions
 - Automated order processing with detailed information
+- Get information of products from db (Mongodb)
 - Integrated Function Calling to save orders
 - Scalable and sequential processing pipeline
 
