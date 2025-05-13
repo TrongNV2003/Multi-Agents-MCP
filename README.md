@@ -32,4 +32,4 @@ python main.py
 ## Future plans
 - Applying MCP (Model Context Protocol) for flexible plug-and-play external tools and APIs. (Done)
 - Applying A2A (Agent to Agent Protocol) for Agents able to interact with each other.
-- Build UI for users easy to interact with Multi Agents.
+- Build UI for users easy to interact with Multi Agents. (Done)
