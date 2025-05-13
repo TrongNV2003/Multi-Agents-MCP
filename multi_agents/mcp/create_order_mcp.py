@@ -33,6 +33,6 @@ class CreateOrderTool(BaseTool):
     
 if __name__ == "__main__":
     tool = CreateOrderTool()
-    input = {"order_details": {"order_id": "a1b2c3d4-e5f6-7890-1234-567890abcdef", "product": "iPhone 15 Pro Max 256GB màu Titan tự nhiên", "quantity": 1, "total_price": 32990000, "customer_info": {"conversation_id": "12345", "customer_name": "Nguyễn Văn A", "previous_interactions": "Đã từng hỏi về iPad Air."}}, "message": ""}
+    input = {"order_details": {"order_id": "a1b2c3d4-e5f6-7890-1234-567890abcdef", "product": "iPhone 15 Pro Max", "color": "Black", "storage": "256GB", "quantity": 1, "total_price": 32990000, "customer_info": {"conversation_id": "12345", "customer_name": "Nguyễn Văn A", "previous_interactions": "Đã từng hỏi về iPad Air."}}, "message": ""}
     result = tool._run(json.dumps(input))
     print(result)

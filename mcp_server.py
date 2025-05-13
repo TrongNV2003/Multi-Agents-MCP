@@ -37,7 +37,7 @@ def create_order(order_details: dict) -> str:
         if "order_details" in input_data:
             input_data = input_data["order_details"]
 
-        required_fields = ["order_id", "product", "quantity", "total_price", "customer_info"]
+        required_fields = ["order_id", "product", "color", "storage", "quantity", "total_price", "customer_info"]
         missing_fields = [field for field in required_fields if field not in input_data]
         if missing_fields:
             return f"Error: Missing required fields: {', '.join(missing_fields)}"        

@@ -49,8 +49,8 @@ def pipeline(customer_input: str, initial_context_data: dict = None, step_callba
           Hãy sử dụng công cụ "Check inventory detail" để kiểm tra thông tin tồn kho và giá của sản phẩm.
           Đảm bảo cung cấp các thông tin như:
           - product: Tên sản phẩm từ Task 1 (ví dụ: 'iPhone 15 Pro Max').
-          - storage: Dung lượng, nếu được đề cập (ví dụ: '256GB').
           - color: Màu sắc, nếu được đề cập (ví dụ: 'Titan tự nhiên').
+          - storage: Dung lượng, nếu được đề cập (ví dụ: '256GB').
         - Nếu 'requires_inventory_check' là false hoặc không có thông tin sản phẩm rõ ràng:
           Trả về thông báo cho biết không cần kiểm tra kho hoặc không đủ thông tin.
         
