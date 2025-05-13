@@ -1,8 +1,10 @@
 from loguru import logger
 from crewai import Crew, Task, Process
 
-from multi_agents.tools.create_order import CreateOrderTool
-from multi_agents.tools.get_detail import GetDetailTool
+# from multi_agents.tools.create_order import CreateOrderTool
+# from multi_agents.tools.get_detail import GetDetailTool
+from multi_agents.mcp.create_order_mcp import CreateOrderTool
+from multi_agents.mcp.get_detail_mcp import GetDetailTool
 from multi_agents.agents.agents import ConsultantAgent, InventoryAgent, OrderAgent
 
 def pipeline(customer_input: str, initial_context_data: dict = None):
@@ -88,7 +90,9 @@ def pipeline(customer_input: str, initial_context_data: dict = None):
         expected_output="Một đối tượng JSON thuần túy (không bọc trong markdown) chứa: "
                         "'order_created': (boolean) đơn hàng có được tạo không."
                         "'order_details': (object) chi tiết đơn hàng nếu được tạo."
-                        "'message': (string) thông báo về trạng thái tạo đơn hàng.",
+                        "'message': (string) thông báo về trạng thái tạo đơn hàng."
+                        'Ví dụ: {{"order_details": {{"order_id": "a1b2c3d4-e5f6-7890-1234-567890abcdef", "product": "iPhone 15 Pro Max 256GB màu Titan tự nhiên", "quantity": 1, "total_price": 32990000, "customer_info": {{"conversation_id": "12345", "customer_name": "Nguyễn Văn A", "previous_interactions": "Đã từng hỏi về iPad Air."}}}}}}',
+                        
         context=[task1_analyze_request, task2_check_inventory]
     )
 

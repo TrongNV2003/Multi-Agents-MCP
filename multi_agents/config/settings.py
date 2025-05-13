@@ -7,10 +7,12 @@ load_dotenv()
 
 class LLMConfig(BaseSettings):
     gemini_api_key: str = Field(
+        ...,
         description="API key for Gemini API",
         alias="GEMINI_API_KEY",
     )
     gemini_model: str = Field(
+        default="gemini/gemini-1.5-flash",
         description="Model name to be used (e.g., Gemini-1.5)",
         alias="GEMINI_MODEL",
     )
@@ -31,16 +33,14 @@ class LLMConfig(BaseSettings):
     )
     seed: int = Field(default=42, alias="SEED", description="Random seed for sampling")
 
+
 class MCPConfig(BaseSettings):
     mcp_url: str = Field(
+        default="http://localhost:8000/sse",
         description="Base URL for MCP API",
         alias="MCP_SERVER_BASE_URL",
     )
-    mcp_port: int = Field(
-        default=8080,
-        description="Port for MCP API",
-        alias="MCP_SERVER_PORT",
-    )
+
 
 class MongodbConfig(BaseSettings):
     mongo_uri: str = Field(
@@ -51,6 +51,7 @@ class MongodbConfig(BaseSettings):
         default="inventory",
         description="Database name for MongoDB",
     )
+
 
 class Role(str, Enum):
     SYSTEM = "system"
