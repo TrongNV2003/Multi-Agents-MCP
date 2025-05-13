@@ -84,7 +84,7 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-st.markdown("# :rainbow[Agento v1]")
+st.markdown("# :rainbow[Agento v2]")
 st.sidebar.header("Cài đặt")
 
 st.sidebar.subheader("Thông tin khách hàng")
