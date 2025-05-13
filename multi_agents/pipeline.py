@@ -7,7 +7,8 @@ from multi_agents.mcp.create_order_mcp import CreateOrderTool
 from multi_agents.mcp.get_detail_mcp import GetDetailTool
 from multi_agents.agents.agents import ConsultantAgent, InventoryAgent, OrderAgent
 
-def pipeline(customer_input: str, initial_context_data: dict = None):
+
+def pipeline(customer_input: str, initial_context_data: dict = None, step_callback=None):
     logger.info(f"Pipeline started with input: '{customer_input}' and context: {initial_context_data}")
 
     consultant = ConsultantAgent()
@@ -20,11 +21,13 @@ def pipeline(customer_input: str, initial_context_data: dict = None):
         Xác định các thông tin quan trọng như:
         1. Tên sản phẩm hoặc loại sản phẩm khách hàng quan tâm.
         2. Ý định chính của khách hàng (ví dụ: hỏi thông tin, kiểm tra tồn kho, hỏi giá, muốn đặt hàng).
-        3. Bất kỳ chi tiết cụ thể nào khác (màu sắc, dung lượng, v.v.).
+        3. Bất kỳ chi tiết cụ thể nào khác (optional) (màu sắc, dung lượng, v.v.).
 
         Dựa trên phân tích, hãy chuẩn bị một bản tóm tắt rõ ràng.
-        Nếu khách hàng cung cấp thông tin trong 'initial_context_data' (nếu có): {initial_context_data}, hãy kết hợp nó.
+        Nếu khách hàng cung cấp thông tin trong 'initial_context_data' (nếu có): {initial_context_data}, hãy dựa vào thông tin đó để tư vấn cho khách hàng, nhưng đừng nhắc lại tên sản phẩm khách đã từng mua.
         - Nếu khách hàng đề cập đến từ "muốn mua", "đặt mua", hoặc tương tự, hãy đánh giá là họ có ý định đặt hàng (requires_order_placement=true).
+        - Nếu khách hàng hỏi về giá hoặc tồn kho, hãy đánh giá là họ có ý định kiểm tra kho/giá (requires_inventory_check=true).
+        - Nếu khách hàng chỉ nhắc đến tên sản phẩm mà không cung cấp thêm thông tin khác, hãy tìm thông tin sản phẩm đó trong kho và tư vấn thêm thông tin khác về sản phẩm đó (requires_inventory_check=true).
 
         CHÚ Ý:
         - Phản hồi của bạn PHẢI là một đối tượng JSON thuần túy, KHÔNG bao gồm bất kỳ định dạng markdown nào như ```json hoặc ```. 
@@ -52,12 +55,14 @@ def pipeline(customer_input: str, initial_context_data: dict = None):
           Trả về thông báo cho biết không cần kiểm tra kho hoặc không đủ thông tin.
         
         CHÚ Ý:
-        - Phản hồi của bạn PHẢI là một đối tượng JSON thuần túy, KHÔNG bao gồm bất kỳ định dạng markdown nào như ```json hoặc ```. 
-        - Chỉ trả về đối tượng JSON với các trường như mô tả, không thêm văn bản trước hoặc sau JSON.
+        - Phản hồi của bạn PHẢI trả về dạng JSON, ví dụ {{"product": "iPhone 12", "storage": "512GB", "color": "Black"}}. 
+        - Nếu không có thông tin về màu sắc và dung lượng, hãy đảm bảo rằng chỉ có trường 'product' được trả về.
         """,
         agent=inventory.crewai_agent,
         expected_output="Một đối tượng JSON thuần túy (không bọc trong markdown) chứa: "
                         "'product_name': (string) tên sản phẩm đã kiểm tra, "
+                        "'color': (string) màu sắc của sản phẩm (nếu có), "
+                        "'storage': (string) dung lượng của sản phẩm (nếu có), "
                         "'stock_status': (string) 'in_stock', 'out_of_stock', 'low_stock', hoặc 'not_checked', "
                         "'price': (number) giá sản phẩm (nếu có và đã kiểm tra), "
                         "'message': (string) thông báo bổ sung (ví dụ: 'Không đủ thông tin để kiểm tra').",
@@ -73,6 +78,8 @@ def pipeline(customer_input: str, initial_context_data: dict = None):
           2. Tạo một cấu trúc JSON dạng Dictionary chi tiết cho đơn hàng. JSON này phải bao gồm:
              - `order_id`: (string) ID vừa tạo.
              - `product`: (string) Tên sản phẩm từ Task 2.
+             - `color`: (string) Màu sắc từ Task 2 (nếu có).
+             - `storage`: (string) Dung lượng từ Task 2 (nếu có).
              - `quantity`: (number) Mặc định là 1, hoặc nếu khách hàng chỉ định.
              - `total_price`: (number) Giá sản phẩm từ Task 2.
              - `customer_info`: một object chứa thông tin khách hàng từ `initial_context_data`: {initial_context_data} (bao gồm `customer_name` và `conversation_id`).
@@ -91,7 +98,7 @@ def pipeline(customer_input: str, initial_context_data: dict = None):
                         "'order_created': (boolean) đơn hàng có được tạo không."
                         "'order_details': (object) chi tiết đơn hàng nếu được tạo."
                         "'message': (string) thông báo về trạng thái tạo đơn hàng."
-                        'Ví dụ: {{"order_details": {{"order_id": "a1b2c3d4-e5f6-7890-1234-567890abcdef", "product": "iPhone 15 Pro Max 256GB màu Titan tự nhiên", "quantity": 1, "total_price": 32990000, "customer_info": {{"conversation_id": "12345", "customer_name": "Nguyễn Văn A", "previous_interactions": "Đã từng hỏi về iPad Air."}}}}}}',
+                        'Ví dụ: {{"order_details": {{"order_id": "a1b2c3d4-e5f6-7890-1234-567890abcdef", "product": "iPhone 15 Pro Max 256GB", "color": "Titan tự nhiên", "storage": "256Gb", "quantity": 1, "total_price": 32990000, "customer_info": {{"conversation_id": "12345", "customer_name": "Nguyễn Văn A", "previous_interactions": "Đã từng hỏi về iPad Air."}}}}}}',
                         
         context=[task1_analyze_request, task2_check_inventory]
     )
@@ -104,8 +111,9 @@ def pipeline(customer_input: str, initial_context_data: dict = None):
              Thông báo rằng đơn hàng đã được đặt, bao gồm thông tin sản phẩm, giá, và bất kỳ chi tiết nào từ Task 3.
           2. Nếu không đặt được đơn hàng:
              Giải thích lý do (hết hàng, thiếu thông tin, khách không muốn đặt, v.v.) dựa trên 'message' từ Task 3 hoặc các task trước.
-          3. Nếu khách chỉ hỏi thông tin hoặc giá:
-             Cung cấp câu trả lời rõ ràng về sản phẩm, tình trạng kho, và giá (từ Task 2).
+          3. Nếu khách chỉ hỏi thông tin hoặc giá sản phẩm:
+             Cung cấp thông tin chi tiết về sản phẩm, giá cả, và tình trạng kho từ Task 2.
+             Cung cấp câu trả lời rõ ràng và tư vấn cụ thể về sản phẩm, tình trạng kho, và giá (từ Task 2).
         - Đảm bảo câu trả lời thân thiện, dễ hiểu, và phù hợp với ngữ cảnh của khách hàng.
         - Nếu có thông tin từ 'initial_context_data': {initial_context_data}, hãy sử dụng nó để cá nhân hóa câu trả lời (ví dụ: gọi tên khách hàng).
 

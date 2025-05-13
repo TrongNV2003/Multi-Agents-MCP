@@ -46,6 +46,8 @@ def create_order(order_details: dict) -> str:
             "order_details": {
                 "order_id": input_data.get("order_id", f"{uuid.uuid4()}"),
                 "product": input_data.get("product", "Unknown Product"),
+                "color": input_data.get("color", "Unknown Color"),
+                "storage": input_data.get("storage", "Unknown Storage"),
                 "quantity": input_data.get("quantity", 1),
                 "total_price": input_data.get("total_price", 0),
                 "customer_info": {

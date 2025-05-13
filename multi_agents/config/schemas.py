@@ -1,3 +1,4 @@
+from typing import Optional
 from pydantic import BaseModel, Field
 
 class CreateOrderInput(BaseModel):
@@ -5,5 +6,5 @@ class CreateOrderInput(BaseModel):
 
 class CheckInventoryInput(BaseModel):
     product: str = Field(..., description="Name of the product (e.g., 'iPhone 15 Pro Max')")
-    storage: str = Field(None, description="Storage capacity (e.g., '256GB')")
-    color: str = Field(None, description="Color of the product (e.g., 'Titan tự nhiên')")
+    storage: Optional[str] = Field(None, description="Storage capacity (e.g., '256GB')")
+    color: Optional[str] = Field(None, description="Color of the product (e.g., 'Titan tự nhiên')")
