@@ -1,32 +1,36 @@
-╭───────────────────────────────────────────────────────── Crew Execution Started ──────────────────────────────────────────────────────────╮
-│                                                                                                                                           │
-│  Crew Execution Started                                                                                                                   │
-│  Name: crew                                                                                                                               │
-│  ID: 003e1ce3-b31f-40db-9479-e2acb498fd37                                                                                                 │
-│                                                                                                                                           │
-│                                                                                                                                           │
-╰───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+2025-05-13 17:36:43.680 | INFO     | multi_agents.pipeline:pipeline:12 - Pipeline started with input: 'tôi muốn mua 2 cái iphone 15 promax' and context: {'conversation_id': '130', 'customer_name': 'Nguyễn Văn Trọng', 'previous_interactions': 'Đã từng hỏi về iPad Air.'}
+2025-05-13 17:36:43.687 | INFO     | multi_agents.pipeline:pipeline:135 - Kicking off the crew...
+╭──────────────────────────────────────────────────────────────────── Crew Execution Started ─────────────────────────────────────────────────────────────────────╮
+│                                                                                                                                                                 │
+│  Crew Execution Started                                                                                                                                         │
+│  Name: crew                                                                                                                                                     │
+│  ID: 4a1b637a-3cb8-46d8-aa82-01bd5c228b2b                                                                                                                       │
+│                                                                                                                                                                 │
+│                                                                                                                                                                 │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
 
 🚀 Crew: crew
-└── 📋 Task: aaf727e0-042c-4488-a307-5da16d172b07
+└── 📋 Task: e998dd47-d4e0-4f89-adc7-cc5203550618
        Status: Executing Task...
 
 🚀 Crew: crew
-└── 📋 Task: aaf727e0-042c-4488-a307-5da16d172b07
+└── 📋 Task: e998dd47-d4e0-4f89-adc7-cc5203550618
        Status: Executing Task...
     └── 🤖 Agent: Tư vấn khách hàng
             Status: In Progress
 
 # Agent: Tư vấn khách hàng
-## Task: Phân tích kỹ lưỡng yêu cầu của khách hàng: 'Tôi muốn mua iPhone 15 Pro Max 256GB màu Titan tự nhiên còn hàng không? Giá bao nhiêu? Nếu có thì tôi muốn đặt hàng ngay.'.
+## Task: Phân tích kỹ lưỡng yêu cầu của khách hàng: 'tôi muốn mua 2 cái iphone 15 promax'.
         Xác định các thông tin quan trọng như:
         1. Tên sản phẩm hoặc loại sản phẩm khách hàng quan tâm.
         2. Ý định chính của khách hàng (ví dụ: hỏi thông tin, kiểm tra tồn kho, hỏi giá, muốn đặt hàng).
-        3. Bất kỳ chi tiết cụ thể nào khác (màu sắc, dung lượng, v.v.).
+        3. Bất kỳ chi tiết cụ thể nào khác (optional) (màu sắc, dung lượng, v.v.).
 
         Dựa trên phân tích, hãy chuẩn bị một bản tóm tắt rõ ràng.
-        Nếu khách hàng cung cấp thông tin trong 'initial_context_data' (nếu có): {'conversation_id': '12345', 'customer_name': 'Nguyễn Văn A', 'previous_interactions': 'Đã từng hỏi về iPad Air.'}, hãy kết hợp nó.
+        Nếu khách hàng cung cấp thông tin trong 'initial_context_data' (nếu có): {'conversation_id': '130', 'customer_name': 'Nguyễn Văn Trọng', 'previous_interactions': 'Đã từng hỏi về iPad Air.'}, hãy dựa vào thông tin đó để tư vấn cho khách hàng, nhưng đừng nhắc lại tên sản phẩm khách đã từng mua.
         - Nếu khách hàng đề cập đến từ "muốn mua", "đặt mua", hoặc tương tự, hãy đánh giá là họ có ý định đặt hàng (requires_order_placement=true).
+        - Nếu khách hàng hỏi về giá hoặc tồn kho, hãy đánh giá là họ có ý định kiểm tra kho/giá (requires_inventory_check=true).
+        - Nếu khách hàng chỉ nhắc đến tên sản phẩm mà không cung cấp thêm thông tin khác, hãy tìm thông tin sản phẩm đó trong kho và tư vấn thêm thông tin khác về sản phẩm đó (requires_inventory_check=true).
 
         CHÚ Ý:
         - Phản hồi của bạn PHẢI là một đối tượng JSON thuần túy, KHÔNG bao gồm bất kỳ định dạng markdown nào như ```json hoặc ```. 
@@ -43,46 +47,46 @@
 
 # Agent: Tư vấn khách hàng
 ## Final Answer: 
-{"product_details": "iPhone 15 Pro Max 256GB màu Titan tự nhiên", "customer_intent": "place_order", "original_query": "Tôi muốn mua iPhone 15 Pro Max 256GB màu Titan tự nhiên còn hàng không? Giá bao nhiêu? Nếu có thì tôi muốn đặt hàng ngay.", "requires_inventory_check": true, "requires_order_placement": true}
+{"product_details": "iPhone 15 Pro Max", "customer_intent": "place_order", "original_query": "tôi muốn mua 2 cái iphone 15 promax", "requires_inventory_check": true, "requires_order_placement": true}
 
 
 🚀 Crew: crew
-└── 📋 Task: aaf727e0-042c-4488-a307-5da16d172b07
+└── 📋 Task: e998dd47-d4e0-4f89-adc7-cc5203550618
        Status: Executing Task...
     └── 🤖 Agent: Tư vấn khách hàng
             Status: ✅ Completed
 
 🚀 Crew: crew
-└── 📋 Task: aaf727e0-042c-4488-a307-5da16d172b07
+└── 📋 Task: e998dd47-d4e0-4f89-adc7-cc5203550618
        Assigned to: Tư vấn khách hàng
        Status: ✅ Completed
     └── 🤖 Agent: Tư vấn khách hàng
             Status: ✅ Completed
-╭───────────────────────────────────────────────────────────── Task Completion ─────────────────────────────────────────────────────────────╮
-│                                                                                                                                           │
-│  Task Completed                                                                                                                           │
-│  Name: aaf727e0-042c-4488-a307-5da16d172b07                                                                                               │
-│  Agent: Tư vấn khách hàng                                                                                                                 │
-│                                                                                                                                           │
-│                                                                                                                                           │
-╰───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭──────────────────────────────────────────────────────────────────────── Task Completion ────────────────────────────────────────────────────────────────────────╮
+│                                                                                                                                                                 │
+│  Task Completed                                                                                                                                                 │
+│  Name: e998dd47-d4e0-4f89-adc7-cc5203550618                                                                                                                     │
+│  Agent: Tư vấn khách hàng                                                                                                                                       │
+│                                                                                                                                                                 │
+│                                                                                                                                                                 │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
 
 🚀 Crew: crew
-├── 📋 Task: aaf727e0-042c-4488-a307-5da16d172b07
+├── 📋 Task: e998dd47-d4e0-4f89-adc7-cc5203550618
 │      Assigned to: Tư vấn khách hàng
 │      Status: ✅ Completed
 │   └── 🤖 Agent: Tư vấn khách hàng
 │           Status: ✅ Completed
-└── 📋 Task: 2ca5dde4-6b22-4fb3-b61f-121776f2cf5c
+└── 📋 Task: 44f4fa29-5083-4999-826a-a45eb9e54304
        Status: Executing Task...
 
 🚀 Crew: crew
-├── 📋 Task: aaf727e0-042c-4488-a307-5da16d172b07
+├── 📋 Task: e998dd47-d4e0-4f89-adc7-cc5203550618
 │      Assigned to: Tư vấn khách hàng
 │      Status: ✅ Completed
 │   └── 🤖 Agent: Tư vấn khách hàng
 │           Status: ✅ Completed
-└── 📋 Task: 2ca5dde4-6b22-4fb3-b61f-121776f2cf5c
+└── 📋 Task: 44f4fa29-5083-4999-826a-a45eb9e54304
        Status: Executing Task...
     └── 🤖 Agent: Kiểm tra kho
             Status: In Progress
@@ -93,14 +97,14 @@
           Hãy sử dụng công cụ "Check inventory detail" để kiểm tra thông tin tồn kho và giá của sản phẩm.
           Đảm bảo cung cấp các thông tin như:
           - product: Tên sản phẩm từ Task 1 (ví dụ: 'iPhone 15 Pro Max').
-          - storage: Dung lượng, nếu được đề cập (ví dụ: '256GB').
           - color: Màu sắc, nếu được đề cập (ví dụ: 'Titan tự nhiên').
+          - storage: Dung lượng, nếu được đề cập (ví dụ: '256GB').
         - Nếu 'requires_inventory_check' là false hoặc không có thông tin sản phẩm rõ ràng:
           Trả về thông báo cho biết không cần kiểm tra kho hoặc không đủ thông tin.
         
         CHÚ Ý:
-        - Phản hồi của bạn PHẢI là một đối tượng JSON thuần túy, KHÔNG bao gồm bất kỳ định dạng markdown nào như ```json hoặc ```. 
-        - Chỉ trả về đối tượng JSON với các trường như mô tả, không thêm văn bản trước hoặc sau JSON.
+        - Phản hồi của bạn PHẢI trả về dạng JSON, ví dụ {"product": "iPhone 12", "storage": "512GB", "color": "Black"}. 
+        - Nếu không có thông tin về màu sắc và dung lượng, hãy đảm bảo rằng chỉ có trường 'product' được trả về.
         
 🤖 Agent: Kiểm tra kho
     Status: In Progress
@@ -108,10 +112,11 @@
 
 
 # Agent: Kiểm tra kho
-## Thought: Thought:I need to check the inventory for "iPhone 15 Pro Max 256GB màu Titan tự nhiên" using the "Check inventory detail" tool.
+## Thought: tool_code
+Thought: I need to check the inventory for iPhone 15 Pro Max since requires_inventory_check is true and product details are available.
 ## Using tool: Check inventory detail
 ## Tool Input: 
-"{\"product\": \"iPhone 15 Pro Max\", \"storage\": \"256GB\", \"color\": \"Titan t\\u1ef1 nhi\\u00ean\"}"
+"{\"product\": \"iPhone 15 Pro Max\"}"
 ## Tool Output: 
 meta=None content=[TextContent(type='text', text='{"status": "success", "products": [{"_id": "681dc5a50183bafb3027cf6a", "product_id": "1", "product": "iPhone 15 Pro Max", "storage": "256GB", "color": "Titan tự nhiên", "price": 27990000, "quantity": 3}]}', annotations=None)] isError=False
 🤖 Agent: Kiểm tra kho
@@ -125,66 +130,66 @@ meta=None content=[TextContent(type='text', text='{"status": "success", "product
 
 # Agent: Kiểm tra kho
 ## Final Answer: 
-{"product_name": "iPhone 15 Pro Max", "stock_status": "in_stock", "price": 27990000, "message": ""}
+{"product_name": "iPhone 15 Pro Max", "color": "Titan tự nhiên", "storage": "256GB", "stock_status": "in_stock", "price": 27990000, "message": ""}
 
 
 🚀 Crew: crew
-├── 📋 Task: aaf727e0-042c-4488-a307-5da16d172b07
+├── 📋 Task: e998dd47-d4e0-4f89-adc7-cc5203550618
 │      Assigned to: Tư vấn khách hàng
 │      Status: ✅ Completed
 │   └── 🤖 Agent: Tư vấn khách hàng
 │           Status: ✅ Completed
-└── 📋 Task: 2ca5dde4-6b22-4fb3-b61f-121776f2cf5c
+└── 📋 Task: 44f4fa29-5083-4999-826a-a45eb9e54304
        Status: Executing Task...
     └── 🤖 Agent: Kiểm tra kho
             Status: ✅ Completed
 
 🚀 Crew: crew
-├── 📋 Task: aaf727e0-042c-4488-a307-5da16d172b07
+├── 📋 Task: e998dd47-d4e0-4f89-adc7-cc5203550618
 │      Assigned to: Tư vấn khách hàng
 │      Status: ✅ Completed
 │   └── 🤖 Agent: Tư vấn khách hàng
 │           Status: ✅ Completed
-└── 📋 Task: 2ca5dde4-6b22-4fb3-b61f-121776f2cf5c
+└── 📋 Task: 44f4fa29-5083-4999-826a-a45eb9e54304
        Assigned to: Kiểm tra kho
        Status: ✅ Completed
     └── 🤖 Agent: Kiểm tra kho
             Status: ✅ Completed
-╭───────────────────────────────────────────────────────────── Task Completion ─────────────────────────────────────────────────────────────╮
-│                                                                                                                                           │
-│  Task Completed                                                                                                                           │
-│  Name: 2ca5dde4-6b22-4fb3-b61f-121776f2cf5c                                                                                               │
-│  Agent: Kiểm tra kho                                                                                                                      │
-│                                                                                                                                           │
-│                                                                                                                                           │
-╰───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭──────────────────────────────────────────────────────────────────────── Task Completion ────────────────────────────────────────────────────────────────────────╮
+│                                                                                                                                                                 │
+│  Task Completed                                                                                                                                                 │
+│  Name: 44f4fa29-5083-4999-826a-a45eb9e54304                                                                                                                     │
+│  Agent: Kiểm tra kho                                                                                                                                            │
+│                                                                                                                                                                 │
+│                                                                                                                                                                 │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
 
 🚀 Crew: crew
-├── 📋 Task: aaf727e0-042c-4488-a307-5da16d172b07
+├── 📋 Task: e998dd47-d4e0-4f89-adc7-cc5203550618
 │      Assigned to: Tư vấn khách hàng
 │      Status: ✅ Completed
 │   └── 🤖 Agent: Tư vấn khách hàng
 │           Status: ✅ Completed
-├── 📋 Task: 2ca5dde4-6b22-4fb3-b61f-121776f2cf5c
+├── 📋 Task: 44f4fa29-5083-4999-826a-a45eb9e54304
 │      Assigned to: Kiểm tra kho
 │      Status: ✅ Completed
 │   └── 🤖 Agent: Kiểm tra kho
 │           Status: ✅ Completed
-└── 📋 Task: 3154b8b7-1538-48a5-ab6f-26feb5042c91
+└── 📋 Task: 25f7a44d-e422-44a0-80a3-53a6f6aaa58a
        Status: Executing Task...
 
 🚀 Crew: crew
-├── 📋 Task: aaf727e0-042c-4488-a307-5da16d172b07
+├── 📋 Task: e998dd47-d4e0-4f89-adc7-cc5203550618
 │      Assigned to: Tư vấn khách hàng
 │      Status: ✅ Completed
 │   └── 🤖 Agent: Tư vấn khách hàng
 │           Status: ✅ Completed
-├── 📋 Task: 2ca5dde4-6b22-4fb3-b61f-121776f2cf5c
+├── 📋 Task: 44f4fa29-5083-4999-826a-a45eb9e54304
 │      Assigned to: Kiểm tra kho
 │      Status: ✅ Completed
 │   └── 🤖 Agent: Kiểm tra kho
 │           Status: ✅ Completed
-└── 📋 Task: 3154b8b7-1538-48a5-ab6f-26feb5042c91
+└── 📋 Task: 25f7a44d-e422-44a0-80a3-53a6f6aaa58a
        Status: Executing Task...
     └── 🤖 Agent: Lên đơn hàng
             Status: In Progress
@@ -197,9 +202,11 @@ meta=None content=[TextContent(type='text', text='{"status": "success", "product
           2. Tạo một cấu trúc JSON dạng Dictionary chi tiết cho đơn hàng. JSON này phải bao gồm:
              - `order_id`: (string) ID vừa tạo.
              - `product`: (string) Tên sản phẩm từ Task 2.
+             - `color`: (string) Màu sắc từ Task 2 (nếu có).
+             - `storage`: (string) Dung lượng từ Task 2 (nếu có).
              - `quantity`: (number) Mặc định là 1, hoặc nếu khách hàng chỉ định.
              - `total_price`: (number) Giá sản phẩm từ Task 2.
-             - `customer_info`: một object chứa thông tin khách hàng từ `initial_context_data`: {'conversation_id': '12345', 'customer_name': 'Nguyễn Văn A', 'previous_interactions': 'Đã từng hỏi về iPad Air.'} (bao gồm `customer_name` và `conversation_id`).
+             - `customer_info`: một object chứa thông tin khách hàng từ `initial_context_data`: {'conversation_id': '130', 'customer_name': 'Nguyễn Văn Trọng', 'previous_interactions': 'Đã từng hỏi về iPad Air.'} (bao gồm `customer_name` và `conversation_id`).
           3. Sử dụng công cụ `Create order` với input là JSON string của object trên.
           4. Đặt `order_created` là True.
         - Nếu không đủ điều kiện đặt hàng (ví dụ: khách không muốn đặt, hết hàng, thiếu thông tin):
@@ -213,15 +220,16 @@ meta=None content=[TextContent(type='text', text='{"status": "success", "product
 🤖 Agent: Lên đơn hàng
     Status: In Progress
 
+2025-05-13 17:36:51.868 | DEBUG    | multi_agents.mcp.create_order_mcp:_arun:23 - Sending order_details : {"order_id": "a1b2c3d4-e5f6-7890-1234-567890abcdef", "product": "iPhone 15 Pro Max", "color": "Titan tự nhiên", "storage": "256GB", "quantity": 2, "total_price": 55980000, "customer_info": {"conversation_id": "130", "customer_name": "Nguyễn Văn Trọng", "previous_interactions": "Đã từng hỏi về iPad Air."}} (type: <class 'str'>)
 
 
 # Agent: Lên đơn hàng
-## Thought: Thought: I need to create an order based on the provided information.  The customer wants to place an order, the product is in stock, and I have the necessary details. I will generate a unique order ID, construct the order details JSON, and use the `Create order` tool.
+## Thought: Thought:Tôi cần tạo một đơn hàng vì `requires_order_placement` là true, sản phẩm có trong kho và có đủ thông tin. Tôi sẽ tạo một `order_id` duy nhất, tạo một object JSON chứa chi tiết đơn hàng và sử dụng tool `Create order` để lưu đơn hàng.
 ## Using tool: Create order
 ## Tool Input: 
-"{\"order_details\": \"{\\\"order_id\\\": \\\"a1b2c3d4-e5f6-7890-1234-567890abcdef\\\", \\\"product\\\": \\\"iPhone 15 Pro Max 256GB m\\u00e0u Titan t\\u1ef1 nhi\\u00ean\\\", \\\"quantity\\\": 1, \\\"total_price\\\": 27990000, \\\"customer_info\\\": {\\\"conversation_id\\\": \\\"12345\\\", \\\"customer_name\\\": \\\"Nguy\\u1ec5n V\\u0103n A\\\", \\\"previous_interactions\\\": \\\"\\u0110\\u00e3 t\\u1eebng h\\u1ecfi v\\u1ec1 iPad Air.\\\"}}\"}"
+"{\"order_details\": \"{\\\"order_id\\\": \\\"a1b2c3d4-e5f6-7890-1234-567890abcdef\\\", \\\"product\\\": \\\"iPhone 15 Pro Max\\\", \\\"color\\\": \\\"Titan t\\u1ef1 nhi\\u00ean\\\", \\\"storage\\\": \\\"256GB\\\", \\\"quantity\\\": 2, \\\"total_price\\\": 55980000, \\\"customer_info\\\": {\\\"conversation_id\\\": \\\"130\\\", \\\"customer_name\\\": \\\"Nguy\\u1ec5n V\\u0103n Tr\\u1ecdng\\\", \\\"previous_interactions\\\": \\\"\\u0110\\u00e3 t\\u1eebng h\\u1ecfi v\\u1ec1 iPad Air.\\\"}}\"}"
 ## Tool Output: 
-meta=None content=[TextContent(type='text', text='Order data successfully saved to file: orders/order_a1b2c3d4-e5f6-7890-1234-567890abcdef_12345.json', annotations=None)] isError=False
+meta=None content=[TextContent(type='text', text='Order data successfully saved to file: orders/order_a1b2c3d4-e5f6-7890-1234-567890abcdef_130.json', annotations=None)] isError=False
 🤖 Agent: Lên đơn hàng
     Status: In Progress
 └── 🧠 Thinking...
@@ -233,86 +241,86 @@ meta=None content=[TextContent(type='text', text='Order data successfully saved 
 
 # Agent: Lên đơn hàng
 ## Final Answer: 
-{"order_created": true, "order_details": {"order_id": "a1b2c3d4-e5f6-7890-1234-567890abcdef", "product": "iPhone 15 Pro Max 256GB màu Titan tự nhiên", "quantity": 1, "total_price": 27990000, "customer_info": {"conversation_id": "12345", "customer_name": "Nguyễn Văn A", "previous_interactions": "Đã từng hỏi về iPad Air."}}, "message": ""}
+{"order_created": true, "order_details": {"order_id": "a1b2c3d4-e5f6-7890-1234-567890abcdef", "product": "iPhone 15 Pro Max", "color": "Titan tự nhiên", "storage": "256GB", "quantity": 2, "total_price": 55980000, "customer_info": {"conversation_id": "130", "customer_name": "Nguyễn Văn Trọng", "previous_interactions": "Đã từng hỏi về iPad Air."}}, "message": ""}
 
 
 🚀 Crew: crew
-├── 📋 Task: aaf727e0-042c-4488-a307-5da16d172b07
+├── 📋 Task: e998dd47-d4e0-4f89-adc7-cc5203550618
 │      Assigned to: Tư vấn khách hàng
 │      Status: ✅ Completed
 │   └── 🤖 Agent: Tư vấn khách hàng
 │           Status: ✅ Completed
-├── 📋 Task: 2ca5dde4-6b22-4fb3-b61f-121776f2cf5c
+├── 📋 Task: 44f4fa29-5083-4999-826a-a45eb9e54304
 │      Assigned to: Kiểm tra kho
 │      Status: ✅ Completed
 │   └── 🤖 Agent: Kiểm tra kho
 │           Status: ✅ Completed
-└── 📋 Task: 3154b8b7-1538-48a5-ab6f-26feb5042c91
+└── 📋 Task: 25f7a44d-e422-44a0-80a3-53a6f6aaa58a
        Status: Executing Task...
     └── 🤖 Agent: Lên đơn hàng
             Status: ✅ Completed
 
 🚀 Crew: crew
-├── 📋 Task: aaf727e0-042c-4488-a307-5da16d172b07
+├── 📋 Task: e998dd47-d4e0-4f89-adc7-cc5203550618
 │      Assigned to: Tư vấn khách hàng
 │      Status: ✅ Completed
 │   └── 🤖 Agent: Tư vấn khách hàng
 │           Status: ✅ Completed
-├── 📋 Task: 2ca5dde4-6b22-4fb3-b61f-121776f2cf5c
+├── 📋 Task: 44f4fa29-5083-4999-826a-a45eb9e54304
 │      Assigned to: Kiểm tra kho
 │      Status: ✅ Completed
 │   └── 🤖 Agent: Kiểm tra kho
 │           Status: ✅ Completed
-└── 📋 Task: 3154b8b7-1538-48a5-ab6f-26feb5042c91
+└── 📋 Task: 25f7a44d-e422-44a0-80a3-53a6f6aaa58a
        Assigned to: Lên đơn hàng
        Status: ✅ Completed
     └── 🤖 Agent: Lên đơn hàng
             Status: ✅ Completed
-╭───────────────────────────────────────────────────────────── Task Completion ─────────────────────────────────────────────────────────────╮
-│                                                                                                                                           │
-│  Task Completed                                                                                                                           │
-│  Name: 3154b8b7-1538-48a5-ab6f-26feb5042c91                                                                                               │
-│  Agent: Lên đơn hàng                                                                                                                      │
-│                                                                                                                                           │
-│                                                                                                                                           │
-╰───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭──────────────────────────────────────────────────────────────────────── Task Completion ────────────────────────────────────────────────────────────────────────╮
+│                                                                                                                                                                 │
+│  Task Completed                                                                                                                                                 │
+│  Name: 25f7a44d-e422-44a0-80a3-53a6f6aaa58a                                                                                                                     │
+│  Agent: Lên đơn hàng                                                                                                                                            │
+│                                                                                                                                                                 │
+│                                                                                                                                                                 │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
 
 🚀 Crew: crew
-├── 📋 Task: aaf727e0-042c-4488-a307-5da16d172b07
+├── 📋 Task: e998dd47-d4e0-4f89-adc7-cc5203550618
 │      Assigned to: Tư vấn khách hàng
 │      Status: ✅ Completed
 │   └── 🤖 Agent: Tư vấn khách hàng
 │           Status: ✅ Completed
-├── 📋 Task: 2ca5dde4-6b22-4fb3-b61f-121776f2cf5c
+├── 📋 Task: 44f4fa29-5083-4999-826a-a45eb9e54304
 │      Assigned to: Kiểm tra kho
 │      Status: ✅ Completed
 │   └── 🤖 Agent: Kiểm tra kho
 │           Status: ✅ Completed
-├── 📋 Task: 3154b8b7-1538-48a5-ab6f-26feb5042c91
+├── 📋 Task: 25f7a44d-e422-44a0-80a3-53a6f6aaa58a
 │      Assigned to: Lên đơn hàng
 │      Status: ✅ Completed
 │   └── 🤖 Agent: Lên đơn hàng
 │           Status: ✅ Completed
-└── 📋 Task: baff8549-7e2a-4303-ab23-e6a72d3fddb1
+└── 📋 Task: 12cab8df-7038-467b-bafd-bf99f8402b04
        Status: Executing Task...
 
 🚀 Crew: crew
-├── 📋 Task: aaf727e0-042c-4488-a307-5da16d172b07
+├── 📋 Task: e998dd47-d4e0-4f89-adc7-cc5203550618
 │      Assigned to: Tư vấn khách hàng
 │      Status: ✅ Completed
 │   └── 🤖 Agent: Tư vấn khách hàng
 │           Status: ✅ Completed
-├── 📋 Task: 2ca5dde4-6b22-4fb3-b61f-121776f2cf5c
+├── 📋 Task: 44f4fa29-5083-4999-826a-a45eb9e54304
 │      Assigned to: Kiểm tra kho
 │      Status: ✅ Completed
 │   └── 🤖 Agent: Kiểm tra kho
 │           Status: ✅ Completed
-├── 📋 Task: 3154b8b7-1538-48a5-ab6f-26feb5042c91
+├── 📋 Task: 25f7a44d-e422-44a0-80a3-53a6f6aaa58a
 │      Assigned to: Lên đơn hàng
 │      Status: ✅ Completed
 │   └── 🤖 Agent: Lên đơn hàng
 │           Status: ✅ Completed
-└── 📋 Task: baff8549-7e2a-4303-ab23-e6a72d3fddb1
+└── 📋 Task: 12cab8df-7038-467b-bafd-bf99f8402b04
        Status: Executing Task...
     └── 🤖 Agent: Tư vấn khách hàng
             Status: In Progress
@@ -324,85 +332,81 @@ meta=None content=[TextContent(type='text', text='Order data successfully saved 
              Thông báo rằng đơn hàng đã được đặt, bao gồm thông tin sản phẩm, giá, và bất kỳ chi tiết nào từ Task 3.
           2. Nếu không đặt được đơn hàng:
              Giải thích lý do (hết hàng, thiếu thông tin, khách không muốn đặt, v.v.) dựa trên 'message' từ Task 3 hoặc các task trước.
-          3. Nếu khách chỉ hỏi thông tin hoặc giá:
-             Cung cấp câu trả lời rõ ràng về sản phẩm, tình trạng kho, và giá (từ Task 2).
+          3. Nếu khách chỉ hỏi thông tin hoặc giá sản phẩm:
+             Cung cấp thông tin chi tiết về sản phẩm, giá cả, và tình trạng kho từ Task 2.
+             Cung cấp câu trả lời rõ ràng và tư vấn cụ thể về sản phẩm, tình trạng kho, và giá (từ Task 2).
         - Đảm bảo câu trả lời thân thiện, dễ hiểu, và phù hợp với ngữ cảnh của khách hàng.
-        - Nếu có thông tin từ 'initial_context_data': {'conversation_id': '12345', 'customer_name': 'Nguyễn Văn A', 'previous_interactions': 'Đã từng hỏi về iPad Air.'}, hãy sử dụng nó để cá nhân hóa câu trả lời (ví dụ: gọi tên khách hàng).
+        - Nếu có thông tin từ 'initial_context_data': {'conversation_id': '130', 'customer_name': 'Nguyễn Văn Trọng', 'previous_interactions': 'Đã từng hỏi về iPad Air.'}, hãy sử dụng nó để cá nhân hóa câu trả lời (ví dụ: gọi tên khách hàng).
 
-        Dựa trên toàn bộ quá trình, hãy soạn một câu trả lời hoàn chỉnh, thân thiện và chính xác cho câu hỏi ban đầu của khách hàng: 'Tôi muốn mua iPhone 15 Pro Max 256GB màu Titan tự nhiên còn hàng không? Giá bao nhiêu? Nếu có thì tôi muốn đặt hàng ngay.'.
+        Dựa trên toàn bộ quá trình, hãy soạn một câu trả lời hoàn chỉnh, thân thiện và chính xác cho câu hỏi ban đầu của khách hàng: 'tôi muốn mua 2 cái iphone 15 promax'.
         Nếu có bất kỳ vấn đề hoặc thông tin nào không rõ ràng, hãy giải thích một cách lịch sự.
         
 
 
 # Agent: Tư vấn khách hàng
 ## Final Answer: 
-Chào anh Nguyễn Văn A! Cảm ơn anh đã lựa chọn sản phẩm của chúng tôi.  Đơn hàng của anh với sản phẩm iPhone 15 Pro Max 256GB màu Titan tự nhiên (số lượng 1) đã được đặt thành công với mã đơn hàng a1b2c3d4-e5f6-7890-1234-567890abcdef. Tổng giá trị đơn hàng là 27.990.000 VNĐ.  Chúng tôi sẽ liên hệ với anh sớm để xác nhận thông tin giao hàng.  Rất vui được phục vụ anh!  (Anh đã từng hỏi về iPad Air, hy vọng lần này anh sẽ hài lòng với sản phẩm iPhone 15 Pro Max.)
+Chào anh Nguyễn Văn Trọng!  Rất vui được hỗ trợ anh. Đơn hàng 2 chiếc iPhone 15 Pro Max màu Titan tự nhiên, bộ nhớ 256GB của anh đã được đặt thành công với mã đơn hàng a1b2c3d4-e5f6-7890-1234-567890abcdef. Tổng giá trị đơn hàng là 55.980.000 VNĐ.  Chúng tôi sẽ liên hệ với anh sớm để xác nhận thông tin giao hàng.  Cảm ơn anh đã lựa chọn sản phẩm của chúng tôi!  Nếu có bất kỳ thắc mắc nào, vui lòng liên hệ lại với chúng tôi.  Anh đã từng hỏi về iPad Air, hy vọng lần này anh sẽ hài lòng với sản phẩm iPhone 15 Pro Max.
 
 
 🚀 Crew: crew
-├── 📋 Task: aaf727e0-042c-4488-a307-5da16d172b07
+├── 📋 Task: e998dd47-d4e0-4f89-adc7-cc5203550618
 │      Assigned to: Tư vấn khách hàng
 │      Status: ✅ Completed
 │   └── 🤖 Agent: Tư vấn khách hàng
 │           Status: ✅ Completed
-├── 📋 Task: 2ca5dde4-6b22-4fb3-b61f-121776f2cf5c
+├── 📋 Task: 44f4fa29-5083-4999-826a-a45eb9e54304
 │      Assigned to: Kiểm tra kho
 │      Status: ✅ Completed
 │   └── 🤖 Agent: Kiểm tra kho
 │           Status: ✅ Completed
-├── 📋 Task: 3154b8b7-1538-48a5-ab6f-26feb5042c91
+├── 📋 Task: 25f7a44d-e422-44a0-80a3-53a6f6aaa58a
 │      Assigned to: Lên đơn hàng
 │      Status: ✅ Completed
 │   └── 🤖 Agent: Lên đơn hàng
 │           Status: ✅ Completed
-└── 📋 Task: baff8549-7e2a-4303-ab23-e6a72d3fddb1
+└── 📋 Task: 12cab8df-7038-467b-bafd-bf99f8402b04
        Status: Executing Task...
     └── 🤖 Agent: Tư vấn khách hàng
             Status: ✅ Completed
 
 🚀 Crew: crew
-├── 📋 Task: aaf727e0-042c-4488-a307-5da16d172b07
+├── 📋 Task: e998dd47-d4e0-4f89-adc7-cc5203550618
 │      Assigned to: Tư vấn khách hàng
 │      Status: ✅ Completed
 │   └── 🤖 Agent: Tư vấn khách hàng
 │           Status: ✅ Completed
-├── 📋 Task: 2ca5dde4-6b22-4fb3-b61f-121776f2cf5c
+├── 📋 Task: 44f4fa29-5083-4999-826a-a45eb9e54304
 │      Assigned to: Kiểm tra kho
 │      Status: ✅ Completed
 │   └── 🤖 Agent: Kiểm tra kho
 │           Status: ✅ Completed
-├── 📋 Task: 3154b8b7-1538-48a5-ab6f-26feb5042c91
+├── 📋 Task: 25f7a44d-e422-44a0-80a3-53a6f6aaa58a
 │      Assigned to: Lên đơn hàng
 │      Status: ✅ Completed
 │   └── 🤖 Agent: Lên đơn hàng
 │           Status: ✅ Completed
-└── 📋 Task: baff8549-7e2a-4303-ab23-e6a72d3fddb1
+└── 📋 Task: 12cab8df-7038-467b-bafd-bf99f8402b04
        Assigned to: Tư vấn khách hàng
        Status: ✅ Completed
     └── 🤖 Agent: Tư vấn khách hàng
             Status: ✅ Completed
-╭───────────────────────────────────────────────────────────── Task Completion ─────────────────────────────────────────────────────────────╮
-│                                                                                                                                           │
-│  Task Completed                                                                                                                           │
-│  Name: baff8549-7e2a-4303-ab23-e6a72d3fddb1                                                                                               │
-│  Agent: Tư vấn khách hàng                                                                                                                 │
-│                                                                                                                                           │
-│                                                                                                                                           │
-╰───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭──────────────────────────────────────────────────────────────────────── Task Completion ────────────────────────────────────────────────────────────────────────╮
+│                                                                                                                                                                 │
+│  Task Completed                                                                                                                                                 │
+│  Name: 12cab8df-7038-467b-bafd-bf99f8402b04                                                                                                                     │
+│  Agent: Tư vấn khách hàng                                                                                                                                       │
+│                                                                                                                                                                 │
+│                                                                                                                                                                 │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
 
-╭───────────────────────────────────────────────────────────── Crew Completion ─────────────────────────────────────────────────────────────╮
-│                                                                                                                                           │
-│  Crew Execution Completed                                                                                                                 │
-│  Name: crew                                                                                                                               │
-│  ID: 003e1ce3-b31f-40db-9479-e2acb498fd37                                                                                                 │
-│                                                                                                                                           │
-│                                                                                                                                           │
-╰───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭──────────────────────────────────────────────────────────────────────── Crew Completion ────────────────────────────────────────────────────────────────────────╮
+│                                                                                                                                                                 │
+│  Crew Execution Completed                                                                                                                                       │
+│  Name: crew                                                                                                                                                     │
+│  ID: 4a1b637a-3cb8-46d8-aa82-01bd5c228b2b                                                                                                                       │
+│                                                                                                                                                                 │
+│                                                                                                                                                                 │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
 
-
-========= KẾT QUẢ =========
-Response: Chào anh Nguyễn Văn A! Cảm ơn anh đã lựa chọn sản phẩm của chúng tôi.  Đơn hàng của anh với sản phẩm iPhone 15 Pro Max 256GB màu Titan tự nhiên (số lượng 1) đã được đặt thành công với mã đơn hàng a1b2c3d4-e5f6-7890-1234-567890abcdef. Tổng giá trị đơn hàng là 27.990.000 VNĐ.  Chúng tôi sẽ liên hệ với anh sớm để xác nhận thông tin giao hàng.  Rất vui được phục vụ anh!  (Anh đã từng hỏi về iPad Air, hy vọng lần này anh sẽ hài lòng với sản phẩm iPhone 15 Pro Max.)
-Task 1: {"product_details": "iPhone 15 Pro Max 256GB màu Titan tự nhiên", "customer_intent": "place_order", "original_query": "Tôi muốn mua iPhone 15 Pro Max 256GB màu Titan tự nhiên còn hàng không? Giá bao nhiêu? Nếu có thì tôi muốn đặt hàng ngay.", "requires_inventory_check": true, "requires_order_placement": true}
-Task 2: {"product_name": "iPhone 15 Pro Max", "stock_status": "in_stock", "price": 27990000, "message": ""}
-Task 3: {"order_created": true, "order_details": {"order_id": "a1b2c3d4-e5f6-7890-1234-567890abcdef", "product": "iPhone 15 Pro Max 256GB màu Titan tự nhiên", "quantity": 1, "total_price": 27990000, "customer_info": {"conversation_id": "12345", "customer_name": "Nguyễn Văn A", "previous_interactions": "Đã từng hỏi về iPad Air."}}, "message": ""}
-Token usage: {'total_tokens': 6996, 'prompt_tokens': 6216, 'cached_prompt_tokens': 0, 'completion_tokens': 780, 'successful_requests': 6}
+2025-05-13 17:36:57.137 | INFO     | multi_agents.pipeline:pipeline:138 - Crew execution finished. Final result: Chào anh Nguyễn Văn Trọng!  Rất vui được hỗ trợ anh. Đơn hàng 2 chiếc iPhone 15 Pro Max màu Titan tự nhiên, bộ nhớ 256GB của anh đã được đặt thành công với mã đơn hàng a1b2c3d4-e5f6-7890-1234-567890abcdef. Tổng giá trị đơn hàng là 55.980.000 VNĐ.  Chúng tôi sẽ liên hệ với anh sớm để xác nhận thông tin giao hàng.  Cảm ơn anh đã lựa chọn sản phẩm của chúng tôi!  Nếu có bất kỳ thắc mắc nào, vui lòng liên hệ lại với chúng tôi.  Anh đã từng hỏi về iPad Air, hy vọng lần này anh sẽ hài lòng với sản phẩm iPhone 15 Pro Max.
+2025-05-13 17:36:57.137 | DEBUG    | multi_agents.pipeline:pipeline:166 - Serialized token_usage: {'total_tokens': 7210, 'prompt_tokens': 6409, 'cached_prompt_tokens': 0, 'completion_tokens': 801, 'successful_requests': 6}
