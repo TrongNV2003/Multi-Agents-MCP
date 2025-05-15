@@ -67,20 +67,6 @@ st.markdown("""
             display: flex;
             flex-direction: column;
         }
-        .suggestion-card {
-            display: inline-block;
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            padding: 10px 15px;
-            margin: 5px;
-            cursor: pointer;
-            transition: background-color 0.2s;
-            font-size: 14px;
-            color: white;
-        }
-        .suggestion-card:hover {
-            background-color: rgba(255, 255, 255, 0.2);
-        }
     </style>
 """, unsafe_allow_html=True)
 
@@ -92,14 +78,7 @@ conversation_id = st.sidebar.text_input("Session ID", value="130")
 customer_name = st.sidebar.text_input("Tên khách hàng", value="Nguyễn Văn Trọng")
 previous_interactions = st.sidebar.text_area("Lịch sử tương tác", value="Đã từng hỏi về iPad Air.")
 
-# show_thoughts = st.sidebar.checkbox("Hiển thị suy luận của agents", value=True)
-
-SUGGESTIONS = [
-    "Tư vấn giá iPhone 15 Pro Max cho tôi",
-    "iPhone 14 Pro còn hàng không? Giá bao nhiêu?",
-    "MacBook Air M2 có những màu nào?",
-    "Tôi muốn đặt mua iPhone 15 Pro Max"
-]
+show_thoughts = st.sidebar.checkbox("Hiển thị suy luận của agents", value=True)
 
 def strip_ansi(text):
     """Loại bỏ mã ANSI escape từ chuỗi."""
@@ -122,9 +101,9 @@ def query_processing(query_text, container, context_data):
                 if s["type"] == "thinking":
                     agent_name = s.get("agent", "Unknown")
                     html_content += f'<div class="thinking-step">Agent {agent_name}: Suy nghĩ - {s["content"]}</div>'
-            # if show_thoughts:
-            #     container.markdown(html_content, unsafe_allow_html=True)
-            #     time.sleep(0.5)
+            if show_thoughts:
+                container.markdown(html_content, unsafe_allow_html=True)
+                time.sleep(0.5)
 
         elif step["type"] == "final_answer":
             final_answer = strip_ansi(step["content"])
@@ -220,4 +199,4 @@ if __name__ == "__main__":
     main()
     health_check()
     
-# python -m streamlit run multi_agents/interface/gui.py
+# python -m streamlit run multi_agents/ui/main.py

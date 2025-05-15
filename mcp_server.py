@@ -133,5 +133,5 @@ def get_product_info(product: str, storage: Optional[str] = None, color: Optiona
 
 
 if __name__ == "__main__":
-    print("Starting MCP server...")
+    logger.info("Starting MCP server...")
     mcp.run(transport="sse")

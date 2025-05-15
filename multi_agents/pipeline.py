@@ -8,14 +8,16 @@ from multi_agents.mcp.get_detail_mcp import GetDetailTool
 from multi_agents.agents.agents import ConsultantAgent, InventoryAgent, OrderAgent
 
 
-def pipeline(customer_input: str, initial_context_data: dict = None, step_callback=None):
+def pipeline(customer_input: str, initial_context_data: dict = None, step_callback=None) -> dict:
     logger.info(f"Pipeline started with input: '{customer_input}' and context: {initial_context_data}")
 
     consultant = ConsultantAgent()
     inventory = InventoryAgent(tools=[GetDetailTool()])
     order = OrderAgent(tools=[CreateOrderTool()])
 
-    # Task 1: Consultant Agent phân tích yêu cầu
+    """
+    Task 1: Consultant Agent phân tích yêu cầu
+    """
     task1_analyze_request = Task(
         description=f"""Phân tích kỹ lưỡng yêu cầu của khách hàng: '{customer_input}'.
         Xác định các thông tin quan trọng như:
@@ -42,7 +44,9 @@ def pipeline(customer_input: str, initial_context_data: dict = None, step_callba
                         "'requires_order_placement': (boolean) liệu khách có ý định đặt hàng không."
     )
 
-    # Task 2: Inventory Agent kiểm tra kho và giá (phụ thuộc vào Task 1)
+    """
+    Task 2: Inventory Agent kiểm tra kho và giá (phụ thuộc vào Task 1)
+    """
     task2_check_inventory = Task(
         description=f"""Dựa trên kết quả phân tích từ Task 1 (đặc biệt là 'product_details' và 'requires_inventory_check'):
         - Nếu 'requires_inventory_check' là true và 'product_details' có thông tin:
@@ -69,7 +73,9 @@ def pipeline(customer_input: str, initial_context_data: dict = None, step_callba
         context=[task1_analyze_request]
     )
 
-    # Task 3: Order Agent xử lý việc đặt hàng (phụ thuộc vào Task 1 và Task 2)
+    """
+    Task 3: Order Agent xử lý việc đặt hàng (phụ thuộc vào Task 1 và Task 2)
+    """
     task3_place_order = Task(
         description=f"""Dựa trên kết quả phân tích từ Task 1 ('customer_intent', 'requires_order_placement', 'product_details')
         và kết quả kiểm tra kho từ Task 2 ('stock_status', 'price'):
@@ -103,7 +109,9 @@ def pipeline(customer_input: str, initial_context_data: dict = None, step_callba
         context=[task1_analyze_request, task2_check_inventory]
     )
 
-    # Task 4: Consultant Agent tổng hợp và tạo phản hồi cuối cùng cho khách hàng
+    """
+    Task 4: Consultant Agent tổng hợp và tạo phản hồi cuối cùng cho khách hàng
+    """
     task4_final_response = Task(
         description=f"""Tổng hợp tất cả thông tin từ các bước trước để đưa ra câu trả lời cuối cùng cho khách hàng.
         - Dựa trên kết quả từ Task 1 ('customer_intent', 'product_details'), Task 2 ('stock_status', 'price'), và Task 3 ('order_created', 'message'):
@@ -129,6 +137,7 @@ def pipeline(customer_input: str, initial_context_data: dict = None, step_callba
         agents=[consultant.crewai_agent, inventory.crewai_agent, order.crewai_agent],
         tasks=[task1_analyze_request, task2_check_inventory, task3_place_order, task4_final_response],
         process=Process.sequential,
+        step_callback=step_callback,
         verbose=True
     )
 
