@@ -19,14 +19,14 @@ The system contains 3 main agents:
 2. **Specialized agents**: Consultant, stock staff, order staff
 
 ## Usage
+Start mongoDB Server:
+```
+sudo systemctl start mongod.service
+```
+
 Start MCP SSE server:
 ```python
 python mcp_server.py
-```
-
-mongoDB:
-```
-sudo systemctl start mongod.service
 ```
 
 Running Multi Agents:
