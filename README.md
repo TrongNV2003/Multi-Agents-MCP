@@ -24,6 +24,11 @@ Start MCP SSE server:
 python mcp_server.py
 ```
 
+mongoDB:
+```
+sudo systemctl start mongod.service
+```
+
 Running Multi Agents:
 ```python
 python main.py
