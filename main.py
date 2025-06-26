@@ -1,10 +1,11 @@
-from multi_agents.pipeline import pipeline
+from multi_agents.pipeline import MultiAgents
 from multi_agents.utils.logging import setup_logger
 
 
 def main():
     logger = setup_logger()
-    
+    multi_agents = MultiAgents()
+
     customer_query = "Tôi muốn mua iPhone 15 Pro Max 256GB màu Titan tự nhiên còn hàng không? Giá bao nhiêu? Nếu có thì tôi muốn đặt hàng ngay."
 
     initial_context = {
@@ -14,8 +15,8 @@ def main():
     }
     
     try:
-        pipeline_output_data = pipeline(customer_query, initial_context_data=initial_context)
-        
+        pipeline_output_data = multi_agents.run(customer_query, initial_context_data=initial_context)
+
         print("\n========= KẾT QUẢ =========")
         logger.info(f"\nCâu trả lời cho khách hàng:\n{pipeline_output_data.get('customer_response')}")
         
