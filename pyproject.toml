@@ -2,7 +2,7 @@
 name = "multi-agents-function-calling"
 version = "0.1.0"
 description = ""
-authors = ["Nguyen Van Trong <trongnv130@ghtk.co>"]
+authors = ["Nguyen Van Trong <trongnguyen220603@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
