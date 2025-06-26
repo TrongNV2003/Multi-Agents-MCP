@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: my_mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
+      interval: 10s
+      timeout: 10s
+      retries: 5
+      start_period: 40s
+
+  mcp_server:
+    container_name: my_mcp_server
+    build: .
+    command: ["python", "-u", "mcp_server.py"]
+    environment:
+      - MONGODB_URI=mongodb://mongodb:27017/
+    depends_on:
+      mongodb:
+        condition: service_healthy
+
+  app:
+    container_name: my_api_app
+    build: .
+    ports:
+      - "2206:2206"
+    environment:
+      - MONGODB_URI=mongodb://mongodb:27017/
+    depends_on:
+      mongodb:
+        condition: service_healthy
+      mcp_server:
+        condition: service_started
+
+volumes:
+  mongo_data:

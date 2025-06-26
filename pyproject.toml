@@ -1,22 +1,23 @@
-[build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
-
 [tool.poetry]
-name = "multiagentos"
+name = "multi-agents-function-calling"
 version = "0.1.0"
-description = "Multi Agents with CrewAI for the field of sales"
-authors = ["Trongnguyen <trongnguyen220603@gmail.com>"]
+description = ""
+authors = ["Nguyen Van Trong <trongnv130@ghtk.co>"]
 readme = "README.md"
-keywords = []
 
 [tool.poetry.dependencies]
-python = "^3.11"
-crewai = "^0.119.0"
+python = "^3.12"
+crewai = "0.134.0"
+httpx = "0.28.1"
 loguru = "0.7.3"
-openai = "1.77.0"
-pydantic = "2.11.4"
-pydantic-settings = "2.9.1"
-python-dotenv = "1.1.0"
-requests = "2.32.3"
-pymongo = "4.12.1"
+openai = "1.91.0"
+pydantic = "2.11.7"
+pydantic-settings = "2.10.1"
+pymongo = "4.13.2"
+python-dotenv = "1.1.1"
+streamlit = "1.46.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
