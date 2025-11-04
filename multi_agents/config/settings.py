@@ -5,6 +5,21 @@ from pydantic_settings import BaseSettings
 
 load_dotenv()
 
+class APIConfig(BaseSettings):
+    base_url_llm: str = Field(
+        description="Base URL for OpenAI API",
+        alias="API_URL_LLM",
+    )
+    api_key: str = Field(
+        description="API key for OpenAI",
+        alias="API_KEY",
+    )
+    llm_model: str = Field(
+        default="Qwen/Qwen3-4B-AWQ",
+        description="Large Language model name to be used (e.g., GPT-4)",
+        alias="LLM_MODEL",
+    )
+
 class LLMConfig(BaseSettings):
     gemini_api_key: str = Field(
         ...,
@@ -59,6 +74,7 @@ class Role(str, Enum):
     ASSISTANT = "assistant"
 
 
+api_config = APIConfig()
 llm_config = LLMConfig()
 mcp_config = MCPConfig()
 db_config = MongodbConfig()

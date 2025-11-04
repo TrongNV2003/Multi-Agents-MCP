@@ -1,11 +1,10 @@
 from loguru import logger
 from crewai import Crew, Task, Process
 
-# from multi_agents.tools.create_order import CreateOrderTool
-# from multi_agents.tools.get_detail import GetDetailTool
 from multi_agents.mcp.create_order_mcp import CreateOrderTool
 from multi_agents.mcp.get_detail_mcp import GetDetailTool
 from multi_agents.agents.agents import ConsultantAgent, InventoryAgent, OrderAgent
+
 
 class MultiAgents:
     def __init__(self):

@@ -1,13 +1,14 @@
 from crewai import Agent, LLM
 
-from multi_agents.config.settings import llm_config
+from multi_agents.config.settings import api_config
 
 
 class ConsultantAgent:
     def __init__(self, tools=None):
         self.llm = LLM(
-            model=llm_config.gemini_model,
-            api_key=llm_config.gemini_api_key,
+            model="openai/Qwen/Qwen3-8B",
+            base_url=api_config.base_url_llm,
+            api_key=api_config.api_key,
             temperature=0.5,
         )
         
@@ -23,8 +24,9 @@ class ConsultantAgent:
 class InventoryAgent:
     def __init__(self, tools=None):
         self.llm = LLM(
-            model=llm_config.gemini_model,
-            api_key=llm_config.gemini_api_key,
+            model="openai/Qwen/Qwen3-8B",
+            base_url=api_config.base_url_llm,
+            api_key=api_config.api_key,
             temperature=0.5,
         )
         
@@ -40,8 +42,9 @@ class InventoryAgent:
 class OrderAgent:
     def __init__(self, tools=None):
         self.llm = LLM(
-            model=llm_config.gemini_model,
-            api_key=llm_config.gemini_api_key,
+            model="openai/Qwen/Qwen3-8B",
+            base_url=api_config.base_url_llm,
+            api_key=api_config.api_key,
             temperature=0.5,
         )
         
